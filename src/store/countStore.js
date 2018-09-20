@@ -4,7 +4,13 @@ class CountStore {
    constructor(){
      
    }
+
+   @action
+   add(){
+     this.num++;
+   }
    @computed get displayResult(){
+      // console.log(this.num)
         return this.num;
     }
 }

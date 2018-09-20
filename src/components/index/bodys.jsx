@@ -5,11 +5,13 @@ import { observer } from 'mobx-react';
 class Bodys extends Component {
     constructor(props){
         super(props);
+        
     }
     render(){
         return <div>
             <div>我是中间</div>
             <div>{this.props.countstore.displayResult}</div>
+            <button onClick={() => this.props.countstore.add()}>mobx +1</button>
         </div>
     }
 }

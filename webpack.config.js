@@ -23,11 +23,7 @@ module.exports = (options = {}) => ({
        {
             test: /\.js[x]?$/,
             exclude: /node_modules/,
-            loader: 'babel-loader?presets[]=env&presets[]=react',
-            options: {
-              presets: ['es2015',  'stage-0', 'react'],  //babel presets ，首先需要react解析react然后再es语法编译成js
-
-            }
+            loader: 'babel-loader'
       },  
       {
         test: /\.css$/,

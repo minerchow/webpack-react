@@ -20,7 +20,7 @@ class Index extends Component {
         return <div id="index">
         <div>123132</div>
             <Top id="top" kkk={arr}  dataid={arrs}></Top>
-            <Bodys id="bodys" countstore="{CountStores}">744855</Bodys>
+            <Bodys id="bodys" countstore={CountStores}>744855</Bodys>
             <Bottom id="bottom">213213</Bottom>
         </div>
     }
