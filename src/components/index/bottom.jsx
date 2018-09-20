@@ -1,14 +1,13 @@
 import React, { Component } from 'react';
 import { render } from 'react-dom';
-class Index extends Component {
+class Bottom extends Component {
     constructor(){
         super();
     }
     render(){
         return <div>
-            <div>这是首页</div>
+            <p>我是尾部</p>
         </div>
     }
 }
-
-export default Index;
+export default Bottom;
