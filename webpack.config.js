@@ -5,10 +5,11 @@ const url = require('url')
 const publicPath = '/dist/'
 const ImageminPlugin = require('imagemin-webpack-plugin').default;
 const CopyWebpackPlugin = require('copy-webpack-plugin').default;
-const AutoDllPlugin = require('autodll-webpack-plugin');
+
 module.exports = (options = {}) => ({
   entry: {
-    vendor: ['react','react-dom'],
+    vendor: ['react','react-dom','mobx','mobx-react','axios'],
+    common:['./src/common/util.js','./src/common/config.js','./src/common/basic.js','./src/common/common.css','qs','jsonp'],
     app: './src/app.js'
  
   },
@@ -49,11 +50,11 @@ module.exports = (options = {}) => ({
     ]
   },
   plugins: [
-    // new webpack.optimize.CommonsChunkPlugin({
-    //   name:'common',
-    //   minChunks: 3,
-    //   chunks: ['common','app']
-    // }),
+    new webpack.optimize.CommonsChunkPlugin({
+      name:'common',
+      minChunks: 3,
+      chunks: ['common','app']
+    }),
     new webpack.optimize.CommonsChunkPlugin({
       name:'vendor',
       minChunks: Infinity,
@@ -87,9 +88,9 @@ module.exports = (options = {}) => ({
     //   ]
     // }),
     new HtmlWebpackPlugin({
-      template: 'src/index.tpl',
-      filename: 'index.html',
-      chunks:['vendor','app']
+      template: 'src/pages/test.tpl',
+      filename: options.dev ? 'test.html' : "../test.html",
+      chunks:['vendor','common','app']
     }),
     new webpack.optimize.UglifyJsPlugin({
       // 最紧凑的输出
@@ -112,10 +113,7 @@ module.exports = (options = {}) => ({
     new CopyWebpackPlugin([{
       from: '*/image/'
     }]),
-    new CopyWebpackPlugin([{
-      from: __dirname + '/dist/index.html',
-      to:__dirname
-    }]),
+  
     new ImageminPlugin({
       disable:options.dev ? true : false, 
       pngquant: {
