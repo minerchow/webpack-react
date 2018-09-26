@@ -10,7 +10,8 @@ module.exports = (options = {}) => ({
   entry: {
     vendor: ['react','react-dom','mobx','mobx-react','axios'],
     common:['./src/common/util.js','./src/common/config.js','./src/common/basic.js','./src/common/common.css','qs','jsonp'],
-    app: './src/app.js'
+    app: './src/script/test.js',
+    test2app:'./src/script/test2.js'
  
   },
   output: {
@@ -91,6 +92,11 @@ module.exports = (options = {}) => ({
       template: 'src/pages/test.tpl',
       filename: options.dev ? 'test.html' : "../test.html",
       chunks:['vendor','common','app']
+    }),
+    new HtmlWebpackPlugin({
+      template: 'src/pages/test2.tpl',
+      filename: options.dev ? 'test2.html' : "../test2.html",
+      chunks:['vendor','common','test2app']
     }),
     new webpack.optimize.UglifyJsPlugin({
       // 最紧凑的输出
