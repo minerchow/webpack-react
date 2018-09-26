@@ -112,6 +112,10 @@ module.exports = (options = {}) => ({
     new CopyWebpackPlugin([{
       from: '*/image/'
     }]),
+    new CopyWebpackPlugin([{
+      from: __dirname + '/dist/index.html',
+      to:__dirname
+    }]),
     new ImageminPlugin({
       disable:options.dev ? true : false, 
       pngquant: {
