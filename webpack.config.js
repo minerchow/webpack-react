@@ -8,7 +8,7 @@ const CopyWebpackPlugin = require('copy-webpack-plugin').default;
 const AutoDllPlugin = require('autodll-webpack-plugin');
 module.exports = (options = {}) => ({
   entry: {
-    vendor: ['react','react-dom'],
+    // vendor: ['react','react-dom'],
     app: './src/app.js'
  
   },
@@ -49,16 +49,25 @@ module.exports = (options = {}) => ({
     ]
   },
   plugins: [
+    new webpack.DllReferencePlugin({
+      context: __dirname, // 与DllPlugin中的那个context保持一致
+      /** 
+          下面这个地址对应webpack.dll.config.js中生成的那个json文件的路径
+          这样webpack打包时，会检测此文件中的映射，不会把存在映射的包打包进bundle.js
+      **/
+      manifest: require('./dll/vendor-manifest.json')
+    }),
+
     // new webpack.optimize.CommonsChunkPlugin({
     //   name:'common',
     //   minChunks: 3,
     //   chunks: ['common','app']
     // }),
-    new webpack.optimize.CommonsChunkPlugin({
-      name:'vendor',
-      minChunks: Infinity,
-      chunks: ['vendor']
-    }),
+    // new webpack.optimize.CommonsChunkPlugin({
+    //   name:'vendor',
+    //   minChunks: Infinity,
+    //   chunks: ['vendor']
+    // }),
     // new AutoDllPlugin({
     //   filename: '[name].[hash].js', 
     //   path: '/',
@@ -89,7 +98,7 @@ module.exports = (options = {}) => ({
     new HtmlWebpackPlugin({
       template: 'src/index.tpl',
       filename: 'index.html',
-      chunks:['vendor','app']
+      chunks:['app']
     }),
     new webpack.optimize.UglifyJsPlugin({
       // 最紧凑的输出
