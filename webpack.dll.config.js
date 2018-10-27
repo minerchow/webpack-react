@@ -3,11 +3,11 @@ const webpack = require("webpack");
 const pkg = require('./package.json'); // 引入package.json
 module.exports = {
     entry: {
-        vendor: ['react','react-dom'] // 遍历package.json的所有依赖包
+        vendor: ['react','react-dom'] 
     },
     output: {
         path: path.join(__dirname, 'dll'), // 生成的文件存放路径
-        filename: '[name].dll.js', // 生成的文件名字(默认为vendor.dll.js)
+        filename: '[name].[chunkhash].dll.js', // 生成的文件名字(默认为vendor.dll.js)
         library: '[name]_library'  // 生成文件的映射关系，与下面DllPlugin中配置对应
     },
     plugins: [

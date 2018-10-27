@@ -49,14 +49,14 @@ module.exports = (options = {}) => ({
     ]
   },
   plugins: [
-    new webpack.DllReferencePlugin({
-      context: __dirname, // 与DllPlugin中的那个context保持一致
-      /** 
-          下面这个地址对应webpack.dll.config.js中生成的那个json文件的路径
-          这样webpack打包时，会检测此文件中的映射，不会把存在映射的包打包进bundle.js
-      **/
-      manifest: require('./dll/vendor-manifest.json')
-    }),
+    // new webpack.DllReferencePlugin({
+    //   context: __dirname, // 与DllPlugin中的那个context保持一致
+    //   /** 
+    //       下面这个地址对应webpack.dll.config.js中生成的那个json文件的路径
+    //       这样webpack打包时，会检测此文件中的映射，不会把存在映射的包打包进bundle.js
+    //   **/
+    //   manifest: require('./dll/vendor-manifest.json')
+    // }),
 
     // new webpack.optimize.CommonsChunkPlugin({
     //   name:'common',
@@ -68,37 +68,37 @@ module.exports = (options = {}) => ({
     //   minChunks: Infinity,
     //   chunks: ['vendor']
     // }),
-    // new AutoDllPlugin({
-    //   filename: '[name].[hash].js', 
-    //   path: '/',
-    //   inject:true,
-    //   entry: {
-    //     vendor: ['react','react-dom']
-    //   },
-    //   plugins: [
-    //     new webpack.optimize.UglifyJsPlugin({
-    //       // 最紧凑的输出
-    //       beautify: false,
-    //       // 删除所有的注释
-    //       comments: false,
-    //       compress: {
-    //         // 在UglifyJs删除没有用到的代码时不输出警告  
-    //         warnings: false,
-    //         // 删除所有的 `console` 语句
-    //         // 还可以兼容ie浏览器
-    //         drop_console: true,
-    //         // 内嵌定义了但是只用到一次的变量
-    //         collapse_vars: true,
-    //         // 提取出出现多次但是没有定义成变量去引用的静态值
-    //         reduce_vars: true
-    //       }
-    //     })
-    //   ]
-    // }),
+    new AutoDllPlugin({
+      filename: '[name].[hash].js', 
+      path: '/',
+      inject:true,
+      entry: {
+        vendor: ['react','react-dom']
+      },
+      plugins: [
+        new webpack.optimize.UglifyJsPlugin({
+          // 最紧凑的输出
+          beautify: false,
+          // 删除所有的注释
+          comments: false,
+          compress: {
+            // 在UglifyJs删除没有用到的代码时不输出警告  
+            warnings: true,
+            // 删除所有的 `console` 语句
+            // 还可以兼容ie浏览器
+            drop_console: true,
+            // 内嵌定义了但是只用到一次的变量
+            collapse_vars: true,
+            // 提取出出现多次但是没有定义成变量去引用的静态值
+            reduce_vars: true
+          }
+        })
+      ]
+    }),
     new HtmlWebpackPlugin({
       template: 'src/index.tpl',
       filename: 'index.html',
-      chunks:['app']
+      chunks:['vendor','app']
     }),
     new webpack.optimize.UglifyJsPlugin({
       // 最紧凑的输出
