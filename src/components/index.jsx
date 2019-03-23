@@ -40,7 +40,7 @@ class Index extends Component {
         let pickarr = this.state.pickarr
         return <div id="index">
        
-        <Link to="/page2">page2</Link>
+        <Link to={{ pathname:'/page2',query:{goodsId: 1},search:'?goodsId=2'}}>page2</Link>
         <Link to="/page3">page3</Link>
         <div>123132</div>
             <Top id="top" kkk={arr}  dataid={arrs}></Top>

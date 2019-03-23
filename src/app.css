@@ -1,0 +1,16 @@
+.a-enter {
+    opacity: 0.01;
+    color:yellow;
+}
+.a-enter.a-enter-active {
+    opacity: 1;
+    transition: opacity 500ms ease-in;
+    color: red;
+}
+.a-leave {
+    opacity: 1;
+}
+.a-leave.a-leave-active {
+    opacity: 0.01;
+    transition: opacity 300ms ease-in;
+}
