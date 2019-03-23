@@ -5,6 +5,7 @@ import Bodys from './index/bodys';
 import Top from './index/top';
 import CountStore from '../store/countStore';
 import { Picker, List, WhiteSpace } from 'antd-mobile';
+import { Link } from 'react-router-dom'
 const CountStores  = new CountStore();
 var arr=[1,2,3,4];
 var arrs=[{
@@ -38,6 +39,9 @@ class Index extends Component {
     render(){
         let pickarr = this.state.pickarr
         return <div id="index">
+       
+        <Link to="/page2">page2</Link>
+        <Link to="/page3">page3</Link>
         <div>123132</div>
             <Top id="top" kkk={arr}  dataid={arrs}></Top>
             <Bodys id="bodys" countstore={CountStores}>744855</Bodys>
