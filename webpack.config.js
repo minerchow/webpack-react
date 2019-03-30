@@ -97,7 +97,7 @@ module.exports = (options = {}) => ({
     }),
     new HtmlWebpackPlugin({
       template: 'src/index.tpl',
-      filename: 'index.html',
+      filename: options.dev ? 'index.html' : '../index.html',
       chunks:['vendor','app']
     }),
     new webpack.optimize.UglifyJsPlugin({

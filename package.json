@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "webpack-dev-server --inline --hot --env.dev",
+    "dev": "webpack-dev-server --inline --hot --env.dev --history-api-fallback",
     "build": "rimraf dist && webpack -p --progress --hide-modules",
     "dll": "webpack -p --config webpack.dll.config.js --progress --profile --colors"
   },

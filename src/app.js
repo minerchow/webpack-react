@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { render } from 'react-dom';
-import { HashRouter , Switch , Route  } from 'react-router-dom'
+import { BrowserRouter , Switch , Route  } from 'react-router-dom'
 import Index from '../src/components/index';
 
 import './app.css';
@@ -20,7 +20,7 @@ const Page3Component = Loadable({
 });
 
 render(
-    <HashRouter>
+    <BrowserRouter>
          <Route render={({location}) => ( 
              <CSSTransitionGroup
              transitionName="a"
@@ -37,7 +37,7 @@ render(
             </CSSTransitionGroup>
          )}/>
         
-    </HashRouter>
+    </BrowserRouter>
   , document.getElementById('app'));
 
 
