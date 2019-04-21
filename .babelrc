@@ -1,6 +1,10 @@
 {
-    "presets": ["es2015",  "stage-0", "react"],
-    "plugins": ["transform-decorators-legacy","transform-decorators","transform-class-properties","syntax-dynamic-import",
+    "presets": [
+        "env",
+        "react",
+        "stage-0"
+    ],
+    "plugins": ["transform-decorators-legacy","transform-decorators","transform-class-properties","dynamic-import-webpack",
         ["import", { "libraryName": "antd-mobile", "style": "css" }] 
     ]
 }

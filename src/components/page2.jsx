@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { render } from 'react-dom';
 import { Link } from 'react-router-dom';
+import Util from '../common/util';
 function getParameterByName(name,queryString){
     name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
     if (!queryString) {
@@ -15,6 +16,7 @@ class Page2 extends Component {
         super(props)
         console.log( this.props)
         console.log(getParameterByName('goodsId',this.props.location.search))
+        Util.say()
     }
 
     componentDidMount(){

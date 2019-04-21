@@ -5,7 +5,8 @@ import Bodys from './index/bodys';
 import Top from './index/top';
 import CountStore from '../store/countStore';
 import { Picker, List, WhiteSpace } from 'antd-mobile';
-import { Link } from 'react-router-dom'
+import { Link } from 'react-router-dom';
+import Util from '../common/util';
 const CountStores  = new CountStore();
 var arr=[1,2,3,4];
 var arrs=[{
@@ -29,6 +30,7 @@ class Index extends Component {
         this.state = {
             pickarr:[]
         }
+        Util.say();
         //this.okChange = this.okChange.bind(this,v)
     }
     okChange(v){

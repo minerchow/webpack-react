@@ -8,9 +8,9 @@ const CopyWebpackPlugin = require('copy-webpack-plugin').default;
 const AutoDllPlugin = require('autodll-webpack-plugin');
 module.exports = (options = {}) => ({
   entry: {
-    // vendor: ['react','react-dom'],
-    app: './src/app.js'
- 
+    vendor: ['react','react-dom'],
+    app: './src/app.js',
+    commons:['./src/common/util.js']
   },
   output: {
     path: resolve(__dirname, 'dist'),
@@ -68,56 +68,58 @@ module.exports = (options = {}) => ({
     //   minChunks: Infinity,
     //   chunks: ['vendor']
     // }),
-    new AutoDllPlugin({
-      filename: '[name].[hash].js', 
-      path: '/',
-      inject:true,
-      entry: {
-        vendor: ['react','react-dom']
-      },
-      plugins: [
-        new webpack.optimize.UglifyJsPlugin({
-          // 最紧凑的输出
-          beautify: false,
-          // 删除所有的注释
-          comments: false,
-          compress: {
-            // 在UglifyJs删除没有用到的代码时不输出警告  
-            warnings: true,
-            // 删除所有的 `console` 语句
-            // 还可以兼容ie浏览器
-            drop_console: true,
-            // 内嵌定义了但是只用到一次的变量
-            collapse_vars: true,
-            // 提取出出现多次但是没有定义成变量去引用的静态值
-            reduce_vars: true
-          }
-        })
-      ]
-    }),
+    // new AutoDllPlugin({
+    //   filename: 'vendor.[hash].js', 
+    //   debug: true,
+    //   path: '/',
+    //   inject:true,
+    //   entry: {
+    //     vendor: ['react','react-dom']
+    //   },
+    //   // plugins: [
+    //   //   new webpack.optimize.UglifyJsPlugin({
+    //   //     // 最紧凑的输出
+    //   //     beautify: false,
+    //   //     // 删除所有的注释
+    //   //     comments: false,
+    //   //     compress: {
+    //   //       // 在UglifyJs删除没有用到的代码时不输出警告  
+    //   //       warnings: true,
+    //   //       // 删除所有的 `console` 语句
+    //   //       // 还可以兼容ie浏览器
+    //   //       drop_console: true,
+    //   //       // 内嵌定义了但是只用到一次的变量
+    //   //       collapse_vars: true,
+    //   //       // 提取出出现多次但是没有定义成变量去引用的静态值
+    //   //       reduce_vars: true
+    //   //     }
+    //   //   })
+    //   // ]
+    // }),
     new HtmlWebpackPlugin({
+      inject: true,
       template: 'src/index.tpl',
       filename: options.dev ? 'index.html' : '../index.html',
-      chunks:['vendor','app']
+   
     }),
-    new webpack.optimize.UglifyJsPlugin({
-      // 最紧凑的输出
-      beautify: false,
-      // 删除所有的注释
-      comments: false,
-      compress: {
-        // 在UglifyJs删除没有用到的代码时不输出警告  
-        warnings: false,
-        // 删除所有的 `console` 语句
-        // 还可以兼容ie浏览器
-        drop_console: true,
-        // 内嵌定义了但是只用到一次的变量
-        collapse_vars: true,
-        // 提取出出现多次但是没有定义成变量去引用的静态值
-        reduce_vars: true
-      }
-    }),
-  
+    // new webpack.optimize.UglifyJsPlugin({
+    //   // 最紧凑的输出
+    //   beautify: false,
+    //   // 删除所有的注释
+    //   comments: false,
+    //   compress: {
+    //     // 在UglifyJs删除没有用到的代码时不输出警告  
+    //     warnings: false,
+    //     // 删除所有的 `console` 语句
+    //     // 还可以兼容ie浏览器
+    //     drop_console: true,
+    //     // 内嵌定义了但是只用到一次的变量
+    //     collapse_vars: true,
+    //     // 提取出出现多次但是没有定义成变量去引用的静态值
+    //     reduce_vars: true
+    //   }
+    // }),
+    
     new CopyWebpackPlugin([{
       from: '*/image/'
     }]),
@@ -136,6 +138,36 @@ module.exports = (options = {}) => ({
     })
  
   ],
+  optimization: {
+		splitChunks: {
+      chunks: 'async',
+      minSize: 30000,
+      minChunks: 1,
+      maxAsyncRequests: 5,
+      maxInitialRequests: 3,
+      name: false,
+      cacheGroups: {
+        commons: {
+          chunks: 'initial',
+          name: 'commons',
+          test: /\/(.*)\.js/,
+          minChunks: 2,
+          minSize: 0, // This is example is too small to create commons chunks
+        },
+        vendor: {
+          chunks: 'initial',
+          name: 'vendor',
+          // 设置优先级，防止和自定义的公共代码提取时被覆盖，不进行打包
+          priority: 10,
+          test: /node_modules\/(.*)\.js/,
+        },
+    },
+  },
+    runtimeChunk: {
+			name: 'manifest'
+		}
+  
+}, 
   resolve: {
     alias: {
       '~': resolve(__dirname, 'src')
