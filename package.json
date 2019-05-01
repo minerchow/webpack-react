@@ -1,14 +1,14 @@
 {
-  "name": "webpack-react",
+  "name": "{{name}}",
   "version": "1.0.0",
-  "description": "",
+  "description": "{{description}}",
   "main": "index.js",
   "scripts": {
     "dev": "webpack-dev-server --inline --hot --env.dev --history-api-fallback",
     "build": "rimraf dist && webpack -p --progress --hide-modules",
     "dll": "webpack -p --config webpack.dll.config.js --progress --profile --colors"
   },
-  "author": "",
+  "author": "{{author}}",
   "license": "ISC",
   "devDependencies": {
     "autodll-webpack-plugin": "^0.3.9",
