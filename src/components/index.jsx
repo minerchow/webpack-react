@@ -4,7 +4,7 @@ import Bottom from './index/bottom';
 import Bodys from './index/bodys';
 import Top from './index/top';
 import CountStore from '../store/countStore';
-import { Picker, List, WhiteSpace } from 'antd-mobile';
+import { Picker, List, Button } from 'antd-mobile';
 import { Link } from 'react-router-dom';
 import Util from '../common/util';
 const CountStores  = new CountStore();
@@ -41,7 +41,7 @@ class Index extends Component {
     render(){
         let pickarr = this.state.pickarr
         return <div id="index">
-       
+            
         <Link to={{ pathname:'/page2',query:{goodsId: 1},search:'?goodsId=2'}}>page2</Link>
         <Link to="/page3">page3</Link>
         <div>123132</div>

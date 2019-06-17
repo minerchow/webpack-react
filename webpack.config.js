@@ -3,12 +3,13 @@ const webpack = require('webpack')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const url = require('url')
 const publicPath = '/dist/'
-const ImageminPlugin = require('imagemin-webpack-plugin').default;
-const CopyWebpackPlugin = require('copy-webpack-plugin').default;
+//const ImageminPlugin = require('imagemin-webpack-plugin').default;
+//const CopyWebpackPlugin = require('copy-webpack-plugin').default;
 const AutoDllPlugin = require('autodll-webpack-plugin');
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 module.exports = (options = {}) => ({
   entry: {
-    vendor: ['react','react-dom'],
+  //  vendor: ['react','react-dom'],
     app: './src/app.js',
     commons:['./src/common/util.js']
   },
@@ -49,6 +50,7 @@ module.exports = (options = {}) => ({
     ]
   },
   plugins: [
+    //new BundleAnalyzerPlugin(),
     // new webpack.DllReferencePlugin({
     //   context: __dirname, // 与DllPlugin中的那个context保持一致
     //   /** 
@@ -68,39 +70,21 @@ module.exports = (options = {}) => ({
     //   minChunks: Infinity,
     //   chunks: ['vendor']
     // }),
-    // new AutoDllPlugin({
-    //   filename: 'vendor.[hash].js', 
-    //   debug: true,
-    //   path: '/',
-    //   inject:true,
-    //   entry: {
-    //     vendor: ['react','react-dom']
-    //   },
-    //   // plugins: [
-    //   //   new webpack.optimize.UglifyJsPlugin({
-    //   //     // 最紧凑的输出
-    //   //     beautify: false,
-    //   //     // 删除所有的注释
-    //   //     comments: false,
-    //   //     compress: {
-    //   //       // 在UglifyJs删除没有用到的代码时不输出警告  
-    //   //       warnings: true,
-    //   //       // 删除所有的 `console` 语句
-    //   //       // 还可以兼容ie浏览器
-    //   //       drop_console: true,
-    //   //       // 内嵌定义了但是只用到一次的变量
-    //   //       collapse_vars: true,
-    //   //       // 提取出出现多次但是没有定义成变量去引用的静态值
-    //   //       reduce_vars: true
-    //   //     }
-    //   //   })
-    //   // ]
-    // }),
+  
     new HtmlWebpackPlugin({
       inject: true,
       template: 'src/index.tpl',
       filename: options.dev ? 'index.html' : '../index.html',
-   
+      chunks:['vendor','commons','manifest','app']  
+    }),
+    new AutoDllPlugin({
+        inject: true,
+        filename: '[name]_[hash].js',
+        entry: {
+          vendor: [
+            'react','react-dom','mobx','mobx-react','react-router-dom'
+          ]
+        }
     }),
     // new webpack.optimize.UglifyJsPlugin({
     //   // 最紧凑的输出
@@ -120,47 +104,33 @@ module.exports = (options = {}) => ({
     //   }
     // }),
     
-    new CopyWebpackPlugin([{
-      from: '*/image/'
-    }]),
-    new ImageminPlugin({
-      disable:options.dev ? true : false, 
-      pngquant: {
-        quality: '80'
-      },
-      jpegtran:{
-        progressive: true
-      },
-      test: /\.(jpe?g|png|gif|svg)$/i
-    }),
+    
     new webpack.DefinePlugin({
       ISDEV:options.dev ? true : false
     })
  
   ],
   optimization: {
-		splitChunks: {
-      chunks: 'async',
-      minSize: 30000,
-      minChunks: 1,
-      maxAsyncRequests: 5,
-      maxInitialRequests: 3,
-      name: false,
+	splitChunks: {
+      chunks: "all",  
+      name:true,
       cacheGroups: {
         commons: {
           chunks: 'initial',
-          name: 'commons',
-          test: /\/(.*)\.js/,
+          name: 'common',
+          test:/[\\/]src[\\/]common[\\/]/,
           minChunks: 2,
+          priority:1,
           minSize: 0, // This is example is too small to create commons chunks
         },
-        vendor: {
-          chunks: 'initial',
-          name: 'vendor',
-          // 设置优先级，防止和自定义的公共代码提取时被覆盖，不进行打包
-          priority: 10,
-          test: /node_modules\/(.*)\.js/,
-        },
+        // vendor: {
+        //   chunks: 'initial',
+        //   name: 'vendor',
+        //   // 设置优先级，防止和自定义的公共代码提取时被覆盖，不进行打包
+        //   priority: 10,
+        //   test: /react|react-dom/,
+        //   enforce: true
+        // },
     },
   },
     runtimeChunk: {
