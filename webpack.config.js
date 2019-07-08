@@ -9,14 +9,14 @@ const AutoDllPlugin = require('autodll-webpack-plugin');
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 module.exports = (options = {}) => ({
   entry: {
-  //  vendor: ['react','react-dom'],
+    vendor: ['react','react-dom','mobx','mobx-react','react-router-dom'],
     app: './src/app.js',
     commons:['./src/common/util.js']
   },
   output: {
     path: resolve(__dirname, 'dist'),
-    filename: options.dev ? '[name].js' : '[name].[chunkhash].js',
-    chunkFilename: options.dev ? '[id].js' : '[id].[chunkhash].js' ,
+    filename: options.dev ? '[name].[hash].js' : '[name].[chunkhash].js',
+    chunkFilename: options.dev ? '[id].[hash].js' : '[id].[chunkhash].js' ,
     publicPath: options.dev ? '/' : publicPath
   },
   module: {
@@ -77,15 +77,15 @@ module.exports = (options = {}) => ({
       filename: options.dev ? 'index.html' : '../index.html',
       chunks:['vendor','commons','manifest','app']  
     }),
-    new AutoDllPlugin({
-        inject: true,
-        filename: '[name]_[hash].js',
-        entry: {
-          vendor: [
-            'react','react-dom','mobx','mobx-react','react-router-dom'
-          ]
-        }
-    }),
+    // new AutoDllPlugin({
+    //     inject: true,
+    //     filename: '[name]_[hash].js',
+    //     entry: {
+    //       vendor: [
+    //         'react','react-dom','mobx','mobx-react','react-router-dom'
+    //       ]
+    //     }
+    // }),
     // new webpack.optimize.UglifyJsPlugin({
     //   // 最紧凑的输出
     //   beautify: false,
@@ -112,25 +112,37 @@ module.exports = (options = {}) => ({
   ],
   optimization: {
 	splitChunks: {
-      chunks: "all",  
+      chunks: 'all',//默认只作用于异步模块，为`all`时对所有模块生效,`initial`对同步模块有效
+      minSize: 30000,//合并前模块文件的体积
+      minChunks: 1,//最少被引用次数
+      maxAsyncRequests: 5,
+      maxInitialRequests: 3,
+      automaticNameDelimiter: '~',//自动命名连接符
       name:true,
       cacheGroups: {
-        commons: {
-          chunks: 'initial',
-          name: 'common',
-          test:/[\\/]src[\\/]common[\\/]/,
-          minChunks: 2,
-          priority:1,
-          minSize: 0, // This is example is too small to create commons chunks
-        },
-        // vendor: {
+        // commons: {
         //   chunks: 'initial',
-        //   name: 'vendor',
-        //   // 设置优先级，防止和自定义的公共代码提取时被覆盖，不进行打包
-        //   priority: 10,
-        //   test: /react|react-dom/,
-        //   enforce: true
+        //   name: 'common',
+        //   test:/[\\/]src[\\/]common[\\/]/,
+        //   minChunks: 2,
+        //   priority:1,
+        //   minSize: 0, // This is example is too small to create commons chunks
         // },
+        vendor: {
+          name: 'vendor',
+          // 设置优先级，防止和自定义的公共代码提取时被覆盖，不进行打包
+          minChunks:1,
+          priority: -10,
+          test: /react|react-dom|mobx|mobx-react|react-router-dom/
+        },
+        default: {
+          chunks: 'all',
+          test: /[\\/]src[\\/]/,
+          minChunks: 2,//一般为非第三方公共模块
+          priority: -20,
+          reuseExistingChunk: true,
+          name:"common"
+        }
     },
   },
     runtimeChunk: {
