@@ -3,7 +3,7 @@ const webpack = require("webpack");
 const pkg = require('./package.json'); // 引入package.json
 module.exports = {
     entry: {
-        vendor: ['react','react-dom'] 
+        vendor: ['react','react-dom','mobx','mobx-react','react-router-dom'] 
     },
     output: {
         path: path.join(__dirname, 'dll'), // 生成的文件存放路径
