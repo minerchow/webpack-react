@@ -1,0 +1,1 @@
+(window.webpackJsonp=window.webpackJsonp||[]).push([[2],{163:function(e,o,n){e.exports=n(31)},31:function(e,o,n){"use strict";Object.defineProperty(o,"__esModule",{value:!0}),o.default={say:function(){console.log("eeee")}}}},[[163,0]]]);

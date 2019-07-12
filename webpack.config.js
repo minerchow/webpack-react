@@ -1,3 +1,4 @@
+const path = require('path');
 const resolve = require('path').resolve
 const webpack = require('webpack')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
@@ -46,11 +47,21 @@ module.exports = (options = {}) => ({
             limit: 10000
           }
         }]
+      },
+      {
+        test: /\.html$/,
+        use: ['html-loader', {
+          loader:'./src/loaders/html-minify-loader/index.js',
+          options: {
+            comments: true
+          }
+        }]
       }
     ]
   },
+
   plugins: [
-    new BundleAnalyzerPlugin(),
+   // new BundleAnalyzerPlugin(),
     new webpack.DllReferencePlugin({
       context: __dirname, // 与DllPlugin中的那个context保持一致
       /** 
@@ -73,7 +84,7 @@ module.exports = (options = {}) => ({
   
     new HtmlWebpackPlugin({
       inject: true,
-      template: 'src/index.tpl',
+      template: 'src/index.html',
       filename: options.dev ? 'index.html' : '../index.html',
       chunks:['vendor','commons','manifest','app']  
     }),
