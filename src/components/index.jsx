@@ -51,6 +51,7 @@ class Index extends Component {
             <Picker data={district} cols={1} value={pickarr} className="forss" onOk={v=>this.okChange(v)}>
                 <List.Item arrow="horizontal">Single</List.Item>
             </Picker>
+            <img src="../../src/components/a.jpg"/>
         </div>
     }
 

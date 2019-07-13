@@ -40,20 +40,20 @@ module.exports = (options = {}) => ({
         ]
       },
       {
-        test: /\.(png|jpg|jpeg|gif|eot|ttf|woff|woff2|svg|svgz)(\?.+)?$/,
-        use: [{
-          loader: 'url-loader',
-          options: {
-            limit: 10000
-          }
-        }]
-      },
-      {
         test: /\.html$/,
         use: ['html-loader', {
           loader:'./src/loaders/html-minify-loader/index.js',
           options: {
             comments: true
+          }
+        }]
+      },
+      {
+        test: /\.(png|jpg|gif)$/i,
+        use: [{
+          loader: 'url-loader',
+          options: {
+            limit: 100000
           }
         }]
       }

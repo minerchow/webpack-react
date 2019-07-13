@@ -12,6 +12,7 @@ class Bodys extends Component {
             <div>我是中间</div>
             <div>{this.props.countstore.displayResult}</div>
             <button onClick={() => this.props.countstore.add()}>mobx +1</button>
+            <img src="../../../src/images/webwxgetmsgimg.jpg"/>
         </div>
     }
 }

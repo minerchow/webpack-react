@@ -7,7 +7,6 @@ module.exports = function(source) {
     if (this.cacheable) {
         this.cacheable();
     }
-
     var opts = (this.options &&  loaderUtils.getOptions(this) || {});
     console.log("-------"+ JSON.stringify(opts)+"-------");
     minimize = new Minimize(opts);
