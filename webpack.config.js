@@ -8,6 +8,7 @@ const publicPath = '/dist/'
 //const CopyWebpackPlugin = require('copy-webpack-plugin').default;
 const AutoDllPlugin = require('autodll-webpack-plugin');
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
+const FileListPlugin = require('./src/plugin/FileListPlugin.js');
 module.exports = (options = {}) => ({
   entry: {
     // vendor: ['react','react-dom','mobx','mobx-react','react-router-dom'],
@@ -49,11 +50,12 @@ module.exports = (options = {}) => ({
         }]
       },
       {
-        test: /\.(png|jpg|gif)$/i,
+        test: /\.(png|jpg|jpeg|gif)$/i,
         use: [{
-          loader: 'url-loader',
+          loader: './src/loaders/url-loader/dist/index.js',
           options: {
-            limit: 100000
+            limit: 10000,
+            publicPath:'../'
           }
         }]
       }
@@ -61,6 +63,7 @@ module.exports = (options = {}) => ({
   },
 
   plugins: [
+    new FileListPlugin({aaa:1}),
    // new BundleAnalyzerPlugin(),
     new webpack.DllReferencePlugin({
       context: __dirname, // 与DllPlugin中的那个context保持一致

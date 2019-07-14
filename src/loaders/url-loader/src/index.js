@@ -25,11 +25,13 @@ function shouldTransform(limit, size) {
 
 export default function loader(src) {
   // Loader Options
+  //获取配置
   const options = getOptions(this) || {};
-
+  //外部传进来options和option.json文件进行校验
   validateOptions(schema, options, 'URL Loader');
 
   // No limit or within the specified limit
+  //小于limit值才转成base64
   if (shouldTransform(options.limit, src.length)) {
     const file = this.resourcePath;
     // Get MIME type
@@ -38,13 +40,14 @@ export default function loader(src) {
     if (typeof src === 'string') {
       src = Buffer.from(src);
     }
-
+    //返回base64
     return `module.exports = ${JSON.stringify(
       `data:${mimetype || ''};base64,${src.toString('base64')}`
     )}`;
   }
-
+  
   // Normalize the fallback.
+  
   const {
     loader: fallbackLoader,
     options: fallbackOptions,

@@ -7,6 +7,7 @@ import CountStore from '../store/countStore';
 import { Picker, List, Button } from 'antd-mobile';
 import { Link } from 'react-router-dom';
 import Util from '../common/util';
+import imageA from '../images/webwxgetmsgimg.jpg'
 const CountStores  = new CountStore();
 var arr=[1,2,3,4];
 var arrs=[{
@@ -51,7 +52,7 @@ class Index extends Component {
             <Picker data={district} cols={1} value={pickarr} className="forss" onOk={v=>this.okChange(v)}>
                 <List.Item arrow="horizontal">Single</List.Item>
             </Picker>
-            <img src="../../src/components/a.jpg"/>
+            <img src={imageA}/>
         </div>
     }
 
