@@ -1,7 +1,7 @@
 {
-  "name": "{{name}}",
+  "name": "",
   "version": "1.0.0",
-  "description": "{{description}}",
+  "description": "",
   "main": "index.js",
   "scripts": {
     "dev": "webpack-dev-server --inline --hot --env.dev --history-api-fallback",
@@ -62,9 +62,9 @@
     "mobx-react": "^5.2.8",
     "prop-types": "^15.6.1",
     "qs": "^6.5.1",
-    "react": "^15.3.1",
+    "react": "^16.8.0",
     "react-addons-css-transition-group": "^15.6.2",
-    "react-dom": "^15.3.1",
+    "react-dom": "^16.8.0",
     "react-loadable": "^5.5.0",
     "react-router-dom": "^5.0.0",
     "sortablejs": "^1.6.1",

@@ -19,6 +19,16 @@ const Page3Component = Loadable({
     loading: Loading,
 });
 
+const RenderPropsPage = Loadable({
+    loader: () => import('../src/components/renderProps'),
+    loading: Loading,
+});
+
+const Hoc = Loadable({
+    loader: () => import('../src/components/hoc'),
+    loading: Loading,
+});
+
 render(
     <BrowserRouter>
          <Route render={({location}) => ( 
@@ -32,6 +42,8 @@ render(
              {/* both /roster and /roster/:number begin with /roster */}
              <Route exact path='/page2' component={Page2Component}/>
              <Route exact path='/page3' component={Page3Component}/>
+             <Route exact path='/RenderPropsPage' component={RenderPropsPage}/>
+             <Route exact path='/hoc' component={Hoc}/>
             </Switch>
         
             </CSSTransitionGroup>
