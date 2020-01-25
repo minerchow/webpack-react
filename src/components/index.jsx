@@ -6,6 +6,7 @@ import Top from './index/top';
 import CountStore from '../store/countStore';
 import { Picker, List, WhiteSpace } from 'antd-mobile';
 import { Link } from 'react-router-dom'
+import axios from 'axios';
 const CountStores  = new CountStore();
 var arr=[1,2,3,4];
 var arrs=[{
@@ -31,6 +32,28 @@ class Index extends Component {
         }
         //this.okChange = this.okChange.bind(this,v)
     }
+
+    componentDidMount(){
+        axios({
+            method: 'get',
+            url: 'http://127.0.0.1:3000/graphql',
+            params: {
+                query:`query {
+                    getTopicsListByTab(tab:"share"){
+                      title,
+                      tab,
+                      author {
+                        loginname
+                        avatar_url
+                      }
+                    }
+                  }`
+            }
+          }).then((result)=>{
+            console.log(result)
+          })
+    }
+
     okChange(v){
         this.setState({
             pickarr:v
